@@ -7,7 +7,7 @@ variable "aws_secret_key" {}
 variable "private_key_path" {}
 variable "key_name" {}
 variable "region" {
-  default = "us-east-1"
+  default = "ap-northeast-1"
 }
 
 variable "network_address_space" {
@@ -26,7 +26,7 @@ variable "dns_zone_name" {}
 variable "dns_resource_group" {}
 
 variable "instance_count" {
-  default = 2
+  default = 3
 }
 
 variable "subnet_count" {
@@ -43,14 +43,14 @@ provider "aws" {
   region     = var.region
 }
 
-provider "azurerm" {
-  version = "~> 1.0"
-  subscription_id = var.arm_subscription_id
-  client_id       = var.arm_principal
-  client_secret   = var.arm_password
-  tenant_id       = var.tenant_id
-  alias           = "arm-1"
-}
+# provider "azurerm" {
+#   version = "~> 1.0"
+#   subscription_id = var.arm_subscription_id
+#   client_id       = var.arm_principal
+#   client_secret   = var.arm_password
+#   tenant_id       = var.tenant_id
+#   alias           = "arm-1"
+# }
 
 ##################################################################################
 # LOCALS
@@ -364,16 +364,16 @@ EOF
   }
 
   # Azure RM DNS #
-  resource "azurerm_dns_cname_record" "elb" {
-    name                = "${var.environment_tag}-website"
-    zone_name           = var.dns_zone_name
-    resource_group_name = var.dns_resource_group
-    ttl                 = "30"
-    record              = aws_elb.web.dns_name
-    provider            = azurerm.arm-1
-
-    tags = merge(local.common_tags, { Name = "${var.environment_tag}-website" })
-  }
+#  resource "azurerm_dns_cname_record" "elb" {
+#    name                = "${var.environment_tag}-website"
+#    zone_name           = var.dns_zone_name
+#    resource_group_name = var.dns_resource_group
+#    ttl                 = "30"
+#    record              = aws_elb.web.dns_name
+#    provider            = azurerm.arm-1
+#
+#    tags = merge(local.common_tags, { Name = "${var.environment_tag}-website" })
+#  }
 
   ##################################################################################
   # OUTPUT
