@@ -3,19 +3,19 @@
 ##################################################################################
 
 provider "aws" {
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  #access_key = var.aws_access_key
+  #secret_key = var.aws_secret_key
   region     = var.region
 }
 
-provider "azurerm" {
-  version = "~> 1.0"
-  subscription_id = var.arm_subscription_id
-  client_id       = var.arm_principal
-  client_secret   = var.arm_password
-  tenant_id       = var.tenant_id
-  alias           = "arm-1"
-}
+# provider "azurerm" {
+#   version = "~> 1.0"
+#   subscription_id = var.arm_subscription_id
+#   client_id       = var.arm_principal
+#   client_secret   = var.arm_password
+#   tenant_id       = var.tenant_id
+#   alias           = "arm-1"
+# }
 
 ##################################################################################
 # DATA
@@ -316,13 +316,13 @@ resource "aws_s3_bucket_object" "graphic" {
 }
 
 # Azure RM DNS #
-resource "azurerm_dns_cname_record" "elb" {
-  name                = "${local.env_name}-website"
-  zone_name           = var.dns_zone_name
-  resource_group_name = var.dns_resource_group
-  ttl                 = "30"
-  record              = aws_elb.web.dns_name
-  provider            = azurerm.arm-1
+# resource "azurerm_dns_cname_record" "elb" {
+#   name                = "${local.env_name}-website"
+#   zone_name           = var.dns_zone_name
+#   resource_group_name = var.dns_resource_group
+#   ttl                 = "30"
+#   record              = aws_elb.web.dns_name
+#   provider            = azurerm.arm-1
 
-  tags = merge(local.common_tags, { Name = "${local.env_name}-website" })
-}
+#   tags = merge(local.common_tags, { Name = "${local.env_name}-website" })
+# }
